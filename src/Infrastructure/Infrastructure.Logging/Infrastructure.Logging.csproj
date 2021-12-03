@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>SecretMadonna.Infrastructure.Logging</AssemblyName>
+    <RootNamespace>SecretMadonna.Infrastructure.Logging</RootNamespace>
+  </PropertyGroup>
+
+</Project>

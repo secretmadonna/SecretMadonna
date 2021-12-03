@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace SecretMadonna.Test.TestUI.Pages
+namespace SecretMadonna.TestPrj.WebUI.Pages
 {
     public class PrivacyModel : PageModel
     {
@@ -19,6 +14,8 @@ namespace SecretMadonna.Test.TestUI.Pages
 
         public void OnGet()
         {
+            var methodBase = System.Reflection.MethodBase.GetCurrentMethod();
+            _logger.LogInformation($"{methodBase.DeclaringType.FullName}.{methodBase.Name}");
         }
     }
 }

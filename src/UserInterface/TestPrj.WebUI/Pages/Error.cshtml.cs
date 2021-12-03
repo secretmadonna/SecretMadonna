@@ -1,13 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace SecretMadonna.Test.TestUI.Pages
+namespace SecretMadonna.TestPrj.WebUI.Pages
 {
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     [IgnoreAntiforgeryToken]
@@ -26,6 +22,8 @@ namespace SecretMadonna.Test.TestUI.Pages
 
         public void OnGet()
         {
+            var methodBase = System.Reflection.MethodBase.GetCurrentMethod();
+            _logger.LogInformation($"{methodBase.DeclaringType.FullName}.{methodBase.Name}");
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         }
     }
