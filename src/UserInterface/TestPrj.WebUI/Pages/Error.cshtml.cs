@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -22,8 +23,7 @@ namespace SecretMadonna.TestPrj.WebUI.Pages
 
         public void OnGet()
         {
-            var methodBase = System.Reflection.MethodBase.GetCurrentMethod();
-            _logger.LogInformation($"{methodBase.DeclaringType.FullName}.{methodBase.Name}");
+            var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         }
     }

@@ -20,10 +20,10 @@ namespace SecretMadonna.TestPrj.WebUI.Pages
 
             _logger.LogTrace(message);
             _logger.LogDebug(message);
-            _logger.LogError(message);
             using (_logger.BeginScope(new Guid().ToString()))
             {
                 _logger.LogInformation(message);
+                _logger.LogError(message);
                 _logger.LogCritical(message);
             }
         }
