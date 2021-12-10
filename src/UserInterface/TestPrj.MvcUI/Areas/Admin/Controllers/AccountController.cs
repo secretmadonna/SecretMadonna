@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SecretMadonna.TestPrj.MvcUI.Areas.Admin.Controllers
 {
@@ -11,6 +12,7 @@ namespace SecretMadonna.TestPrj.MvcUI.Areas.Admin.Controllers
         /// 4.第三方登录
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();

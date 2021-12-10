@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -9,39 +11,40 @@ namespace SecretMadonna.TestPrj.MvcUI
 {
     public class Startup
     {
-        private ILogger<Startup> _logger;
-
-        public Startup(IConfiguration configuration, IHostEnvironment hostEnvironment, IWebHostEnvironment webHostEnvironment)
+        public Startup(IConfiguration configuration)
         {
-            System.Console.WriteLine($"{++Program.Index}.{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType} {System.Reflection.MethodBase.GetCurrentMethod()}");
             Configuration = configuration;
-            HostEnvironment = hostEnvironment;
-            WebHostEnvironment = webHostEnvironment;
-
-            _logger = Program.ServiceProvider.GetService<ILogger<Startup>>();
         }
 
         public IConfiguration Configuration { get; }
-        public IHostEnvironment HostEnvironment { get; }
-        public IWebHostEnvironment WebHostEnvironment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            System.Console.WriteLine($"{++Program.Index}.{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType} {System.Reflection.MethodBase.GetCurrentMethod()}");
-
-            _logger.LogInformation(new EventId(0, "default"), "message");
-
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.ClearProviders();
+                loggingBuilder.AddConsole();
+                loggingBuilder.AddLog4Net("log4net.config", true);
+            });
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
+
+            services.AddAuthentication(authenticationOptions =>
+            {
+                authenticationOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, "displayName?", cookieAuthenticationOptions =>
+            {
+                cookieAuthenticationOptions.Cookie.Name = "TestPrj.Auth";
+                cookieAuthenticationOptions.LoginPath = new PathString("/Account/Login");
+                cookieAuthenticationOptions.AccessDeniedPath = new PathString("/Account/Login");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
-            System.Console.WriteLine($"{++Program.Index}.{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType} {System.Reflection.MethodBase.GetCurrentMethod()}");
-
-            _logger.LogInformation(new EventId(0, "default"), "message");
+            logger.LogInformation(new EventId(0, "default"), "message");
 
             if (!env.IsDevelopment())
             {
@@ -65,7 +68,7 @@ namespace SecretMadonna.TestPrj.MvcUI
             {
                 endpoints.MapControllerRoute(
                     name: "areas",
-                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}").RequireAuthorization();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
