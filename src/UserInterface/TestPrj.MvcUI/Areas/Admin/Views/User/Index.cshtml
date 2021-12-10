@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "user/index";
+}
+
+<div class="text-center">
+    <h1 class="display-4">user/index</h1>
+    <div id="divResponseData"></div>
+</div>
+@section Scripts{
+    <script>
+        $(function () {
+            var $divResponseData = $("#divResponseData").text("数据加载中...");
+            $.post("@Url.Content("~/user/index")", function (data, textStatus, jqXHR) {
+                $divResponseData.text(jqXHR.responseText);
+            }, "json").fail(function (jqXHR, textStatus, errorThrown) {
+                $divResponseData.text("数据加载失败");
+            });
+        });
+    </script>
+}

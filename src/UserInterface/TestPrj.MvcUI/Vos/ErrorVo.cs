@@ -1,8 +1,6 @@
-using System;
-
-namespace SecretMadonna.TestPrj.MvcUI.Models
+namespace SecretMadonna.TestPrj.MvcUI.Vos
 {
-    public class ErrorViewModel
+    public class ErrorVo
     {
         public string RequestId { get; set; }
 

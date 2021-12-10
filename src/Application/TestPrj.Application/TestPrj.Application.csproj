@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>SecretMadonna.TestPrj.Application</AssemblyName>
+    <RootNamespace>SecretMadonna.TestPrj.Application</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TestPrj.Application.Abstractions\TestPrj.Application.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
